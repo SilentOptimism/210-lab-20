@@ -1,5 +1,7 @@
 #include <iostream>
+#include <random>
 #include <iomanip>
+#include <time.h>
 
 using namespace std;
 const int SIZE = 3;
@@ -9,10 +11,21 @@ private:
     int legs;
     double * prices;
 public:
+
     // constructors
     Chair() {
+        // Puts the current time as the seed for random numbers
+        time_t timer;
+
+        time(&timer);
+
+        srand(timer);
+
         prices = new double[SIZE];
-        legs = 0;
+        
+        // Generates random int
+        legs = (rand()+3) % 5;
+
         for (int i = 0; i < SIZE; i++)
             prices[i] = 0;
     }
@@ -53,7 +66,6 @@ int main() {
 
     //creating pointer to first chair object
     Chair *chairPtr = new Chair;
-    chairPtr->setLegs(4);
     chairPtr->setPrices(121.21, 232.32, 414.14);
     chairPtr->print();
 
