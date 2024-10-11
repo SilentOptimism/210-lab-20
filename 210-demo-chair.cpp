@@ -1,7 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <chrono>
-#include <thread>
+#include <random>
 
 using namespace std;
 const int SIZE = 3;
@@ -15,24 +14,23 @@ public:
     // constructors
     Chair() {
         // Seeds the random number generator to the time
-        chrono::high_resolution_clock::now();
+        // Uses random_device as seed srand instead of time
+        random_device rd;
+        uniform_int_distribution<int> dist(100,1000);
+        int seed = dist(rd);
 
-        srand();
-        
+        srand(seed);
 
         prices = new double[SIZE];
+        legs = (rand() % 2)+3;
 
-        
-        // Generates random int
-        legs = (rand() % 2) + 3;
         for (int i = 0; i < SIZE; i++)
-            prices[i] = (rand() % 900) + 100;
+            // Calculates the larger integer than adds a decimal value
+            prices[i] = (rand()%900 + 99) + (((double)(rand()%100))/100);
     }
-    Chair(int l) {
-        prices = new double[SIZE];
+    Chair(int l, double* Prices) {
+        prices = Prices;
         legs = l;
-        for (int i = 0; i < SIZE; i++)
-            prices[i] = 0;
     }
 
     // setters and getters
